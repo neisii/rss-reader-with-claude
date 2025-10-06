@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RSS Reader 설정</title>
+  <link rel="stylesheet" href="options.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1>RSS Reader 설정</h1>
+      <p>구독할 RSS/Atom 피드를 관리하세요</p>
+    </header>
+
+    <main class="main">
+      <!-- 피드 추가 섹션 -->
+      <section class="section">
+        <h2>새 피드 추가</h2>
+        <div class="add-feed-form">
+          <div class="form-group">
+            <label for="feedUrl">RSS/Atom 피드 URL</label>
+            <input type="url" id="feedUrl" placeholder="https://example.com/feed.xml" class="form-input">
+          </div>
+          <div class="form-group">
+            <label for="feedCategory">카테고리 (선택사항)</label>
+            <input type="text" id="feedCategory" placeholder="IT, 뉴스, 블로그..." class="form-input">
+          </div>
+          <button id="addFeedBtn" class="btn btn-primary">피드 추가</button>
+        </div>
+      </section>
+
+      <!-- OPML 가져오기/내보내기 섹션 -->
+      <section class="section">
+        <h2>OPML 관리</h2>
+        <div class="opml-controls">
+          <div class="opml-group">
+            <label for="opmlFile">OPML 파일 가져오기</label>
+            <input type="file" id="opmlFile" accept=".opml,.xml" class="form-input">
+            <button id="importOpmlBtn" class="btn btn-secondary">가져오기</button>
+          </div>
+          <div class="opml-group">
+            <button id="exportOpmlBtn" class="btn btn-secondary">OPML 내보내기</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- 피드 목록 섹션 -->
+      <section class="section">
+        <h2>구독 중인 피드</h2>
+        <div class="feed-list" id="feedList">
+          <div class="loading" id="loadingIndicator">
+            <div class="spinner"></div>
+            <span>피드 목록 로딩 중...</span>
+          </div>
+        </div>
+        <div class="empty-state" id="emptyState" style="display: none;">
+          <div class="empty-icon">📡</div>
+          <h3>구독 중인 피드가 없습니다</h3>
+          <p>위의 폼을 사용해서 첫 번째 피드를 추가해보세요</p>
+        </div>
+      </section>
+
+      <!-- 설정 섹션 -->
+      <section class="section">
+        <h2>일반 설정</h2>
+        <div class="settings-form">
+          <div class="form-group">
+            <label for="updateInterval">동기화 간격 (분)</label>
+            <select id="updateInterval" class="form-select">
+              <option value="5">5분</option>
+              <option value="15" selected>15분</option>
+              <option value="30">30분</option>
+              <option value="60">1시간</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="enableNotifications">
+              <span>새 글 알림 활성화</span>
+            </label>
+          </div>
+          <button id="saveSettingsBtn" class="btn btn-primary">설정 저장</button>
+        </div>
+      </section>
+    </main>
+
+    <!-- 상태 메시지 -->
+    <div class="status-message" id="statusMessage" style="display: none;">
+      <span id="statusText"></span>
+    </div>
+  </div>
+
+  <script src="options.js"></script>
+</body>
+</html>

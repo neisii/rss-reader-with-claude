@@ -102,12 +102,17 @@ npm run lint
 ## 🎯 핵심 기능 (MVP)
 
 ### 필수 기능
-- [ ] 피드 구독 관리 (추가/삭제)
-- [ ] 15분마다 자동 동기화 (chrome.alarms)
-- [ ] 툴바 팝업으로 글 목록 표시
-- [ ] 읽음/안읽음 상태 관리
-- [ ] 검색 및 필터링 (제목, 도메인)
-- [ ] 카테고리 태그 시스템
+- [x] 기본 Chrome Extension 구조 (manifest.json, background.js)
+- [x] 팝업 UI 기본 구조 (popup.html/css/js)
+- [x] 설정 페이지 기본 구조 (options.html/css/js)
+- [x] Service Worker 메시지 핸들러 (테스트 친화적)
+- [ ] RSS/Atom 파싱 엔진 구현
+- [ ] 피드 구독 관리 (추가/삭제) - UI 완료, 백엔드 연동 필요
+- [ ] 15분마다 자동 동기화 (chrome.alarms) - 기본 구조 완료
+- [ ] 툴바 팝업으로 글 목록 표시 - UI 완료, 데이터 연동 필요
+- [ ] 읽음/안읽음 상태 관리 - UI 완료, 로직 구현 필요
+- [ ] 검색 및 필터링 (제목, 도메인) - UI 완료, 로직 구현 필요
+- [ ] 카테고리 태그 시스템 - UI 완료, 로직 구현 필요
 - [ ] 배지 알림 (읽지 않은 글 개수)
 - [ ] 기본 피드 제공 (설치 시)
 
@@ -136,17 +141,22 @@ npm run lint
 
 ## 📊 개발 진행 상황
 
-### 현재 상태
+### 현재 상태 (Phase 1 완료)
 - [x] 요구사항 분석 완료
 - [x] RSS 파싱 방식 결정 (DOMParser)
 - [x] 구현 계획 수립
 - [x] Playwright 테스트 전략 수립
 - [x] 개발 문서 작성
+- [x] OpenSSL 키 생성 (사용자)
+- [x] manifest.json 작성 (고정 Extension ID)
+- [x] 기본 프로젝트 구조 생성 (background.js, popup, options)
+- [x] Chrome Extension 로드 테스트 완료
 
-### 다음 단계
-- [ ] OpenSSL 키 생성 (사용자)
-- [ ] manifest.json 작성 (AI)
-- [ ] 기본 프로젝트 구조 생성 (AI)
+### 다음 단계 (Phase 2: 핵심 기능 구현)
+- [ ] RSS/Atom 파싱 엔진 구현 (lib/rss-parser.js)
+- [ ] 피드 동기화 로직 구현 (background.js)
+- [ ] 피드 추가/삭제 백엔드 연동
+- [ ] 실제 데이터 표시 및 상호작용
 
 ## 🔍 주요 기술적 결정사항
 

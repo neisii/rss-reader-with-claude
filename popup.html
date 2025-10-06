@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RSS Reader</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1 class="title">RSS Reader</h1>
+      <button id="optionsBtn" class="options-btn" title="설정">⚙️</button>
+    </header>
+
+    <div class="controls">
+      <div class="search-container">
+        <input type="text" id="searchInput" placeholder="검색..." class="search-input">
+        <button id="clearSearch" class="clear-btn">✕</button>
+      </div>
+
+      <div class="filter-controls">
+        <label class="checkbox-label">
+          <input type="checkbox" id="unreadOnly" checked>
+          <span>읽지 않은 글만</span>
+        </label>
+
+        <select id="sortBy" class="sort-select">
+          <option value="newest">최신순</option>
+          <option value="oldest">오래된 순</option>
+          <option value="score">점수순</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="feed-list" id="feedList">
+      <div class="loading" id="loadingIndicator">
+        <div class="spinner"></div>
+        <span>피드 로딩 중...</span>
+      </div>
+    </div>
+
+    <div class="empty-state" id="emptyState" style="display: none;">
+      <div class="empty-icon">📰</div>
+      <h3>피드가 없습니다</h3>
+      <p>설정에서 RSS 피드를 추가해보세요</p>
+      <button id="addFeedBtn" class="add-feed-btn">피드 추가하기</button>
+    </div>
+  </div>
+
+  <!-- 리더 뷰 모달 -->
+  <div class="modal" id="readerModal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 id="readerTitle">Article Title</h2>
+        <button id="closeModal" class="close-btn">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="readerContent">Loading article content...</div>
+      </div>
+    </div>
+  </div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

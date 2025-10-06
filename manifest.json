@@ -1,0 +1,37 @@
+{
+  "manifest_version": 3,
+  "name": "RSS Reader",
+  "version": "1.0.0",
+  "description": "광고와 추천 알고리즘 없이, 내가 구독한 소스만 깔끔하게 모아보는 개인 맞춤형 RSS 리더",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAwvICx6m/tGlHfT85e828h4Svw2jIeA41uE7TIqnFe4nzlZrFnbrj6a+FICc7fVB5K7QIoHSl2z+qsJPJXoLvVyXCn6uPL1EJYNh3MZFtjr9dVHCKSlNRrKF0BLC43mkT03cEpT2Hle9WHKv5eIloaxpRgPqXdSaXHumu+lx0gKa+bZpHzlwdrvXZEX5XZ667B6DQo3b3ZojdGzN2iRQcC2/SxY8vho+OqILcmpMBF91nb4BQbDA9Cf34ldko+GBmY5s/Yg0Rp64T+tcdcZYMobjD9/bb6QeavYay+Xs77oDXfGdKga3P0ne0t7YBHo8ynYgk04xmtqtHDAAPXaIjgQIDAQAB",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "RSS Reader",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "options_page": "options.html",
+  "permissions": [
+    "storage",
+    "alarms",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "https://*/*",
+    "http://*/*"
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
+  }
+}
