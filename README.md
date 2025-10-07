@@ -1,5 +1,7 @@
 # 나만의 RSS 리더 (Chrome Extension)
 
+[![Tests](https://github.com/neisii/rss-reader-with-claude/actions/workflows/test.yml/badge.svg)](https://github.com/neisii/rss-reader-with-claude/actions/workflows/test.yml)
+
 광고와 추천 알고리즘 없이, 내가 구독한 소스만 깔끔하게 모아보는 개인 맞춤형 RSS 리더 크롬 확장 프로그램입니다.
 
 ## ✨ 핵심 가치

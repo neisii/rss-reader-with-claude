@@ -1,0 +1,36 @@
+{
+  "name": "rss-reader-chrome-extension",
+  "version": "1.0.0-beta",
+  "description": "Ad-free RSS Reader Chrome Extension with automated testing",
+  "type": "module",
+  "scripts": {
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "test:headed": "HEADLESS=false node --experimental-vm-modules node_modules/.bin/jest",
+    "test:debug": "node --inspect-brk --experimental-vm-modules node_modules/.bin/jest --runInBand",
+    "test:watch": "node --experimental-vm-modules node_modules/.bin/jest --watch",
+    "lint": "echo 'Linting not configured yet'",
+    "typecheck": "echo 'TypeScript not configured'",
+    "build": "echo 'No build step required for extension'"
+  },
+  "keywords": [
+    "chrome-extension",
+    "rss",
+    "feed-reader",
+    "manifest-v3",
+    "puppeteer",
+    "e2e-testing"
+  ],
+  "author": "RSS Reader Team",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neisii/rss-reader-with-claude.git"
+  },
+  "devDependencies": {
+    "jest": "^30.2.0",
+    "puppeteer-core": "^24.23.0"
+  }
+}
