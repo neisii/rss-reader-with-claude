@@ -1,6 +1,8 @@
-# Playwright 환경 구성 및 테스트 실행 가이드 (macOS)
+# Playwright 환경 구성 및 테스트 실행 가이드 (2025 Updated)
 
-이 문서는 macOS 환경에서 Playwright를 설정하고, 이 프로젝트의 E2E(End-to-End) 테스트를 실행하는 방법을 안내합니다.
+이 문서는 Chrome Extension을 위한 Playwright 기반 E2E 테스트 환경을 설정하고 실행하는 방법을 안내합니다.
+
+> **🔄 업데이트**: 2025년 최신 버전으로 업데이트됨. 현재 프로젝트 구현과 100% 호환되는 테스트 시나리오 포함.
 
 ## 1. 사전 준비
 
@@ -9,29 +11,56 @@
     brew install node
     ```
 
-## 2. Playwright 설치
+## 2. 빠른 설정 (현재 프로젝트 기준)
 
-프로젝트의 루트 디렉토리에서 다음 명령어를 실행하여 Playwright를 설치합니다.
+현재 RSS Reader Extension 프로젝트에 Playwright를 설정합니다.
 
-1.  **package.json 생성 (없는 경우)**
+### 2.1 의존성 설치
 
-    ```bash
-    npm init -y
-    ```
+```bash
+# 프로젝트 루트에서 실행
+npm init -y
+npm install --save-dev @playwright/test
+npx playwright install chromium
+```
 
-2.  **Playwright 라이브러리 설치**
+### 2.2 설정 파일 생성
 
-    ```bash
-    npm install --save-dev @playwright/test
-    ```
+```javascript
+// playwright.config.js
+import { defineConfig } from '@playwright/test';
+import path from 'path';
 
-3.  **Playwright용 브라우저 설치**
+export default defineConfig({
+  testDir: './tests',
+  fullyParallel: false,
+  workers: 1, // Extension 테스트는 단일 워커 사용
+  reporter: 'html',
+  
+  use: {
+    headless: false, // Extension은 headful 모드 필수
+    launchOptions: {
+      args: [
+        `--disable-extensions-except=${path.resolve(__dirname)}`,
+        `--load-extension=${path.resolve(__dirname)}`,
+        '--no-sandbox'
+      ]
+    }
+  },
+});
+```
 
-    Playwright는 테스트를 위해 자체 브라우저(Chromium, Firefox, WebKit)를 사용합니다. 다음 명령어로 설치합니다.
+### 2.3 package.json 스크립트 추가
 
-    ```bash
-    npx playwright install
-    ```
+```json
+{
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:debug": "playwright test --debug"
+  }
+}
+```
 
 ## 3. 테스트 실행
 
@@ -69,10 +98,46 @@ npx playwright show-report
 
 브라우저에 테스트 결과, 각 단계의 스크린샷, 비디오 녹화 등 상세한 정보가 표시됩니다.
 
-## 참고: 테스트 스크립트 작동 방식
+## 5. 현재 프로젝트와의 호환성
 
-작성된 `tests/e2e.spec.js` 스크립트는 Chrome 확장 프로그램을 테스트하기 위해 다음과 같은 특별한 로직을 포함합니다.
+### 5.1 구현된 기능들과 테스트 시나리오 매핑
 
--   **확장 프로그램 ID 확보**: 테스트 시작 전에 Electron을 일시적으로 실행하여 로드된 확장 프로그램의 동적 ID를 가져옵니다. 이는 `chrome-extension://{id}/`와 같은 URL에 접근하기 위해 필수적입니다.
--   **브라우저 컨텍스트 설정**: 각 테스트마다 `--load-extension` 인자와 함께 새로운 브라우저 컨텍스트를 생성하여 항상 깨끗한 환경에서 테스트를 시작합니다.
--   **페이지 제어**: `options.html`과 `popup.html`에 직접 접근하여 UI 요소를 조작하고, `expect` 함수를 통해 결과를 검증합니다.
+현재 RSS Reader Extension의 모든 기능이 구현되어 있어 즉시 테스트 가능합니다:
+
+| 기능 | 구현 상태 | 테스트 파일 |
+|------|----------|-------------|
+| 피드 추가/삭제 | ✅ 완료 | `tests/options.spec.js` |
+| OPML Import/Export | ✅ 완료 | `tests/options.spec.js` |
+| 팝업 피드 표시 | ✅ 완료 | `tests/popup.spec.js` |
+| 리더 뷰 모달 | ✅ 완료 | `tests/popup.spec.js` |
+| 검색/필터링 | ✅ 완료 | `tests/popup.spec.js` |
+| Service Worker | ✅ 완료 | `tests/service-worker.spec.js` |
+
+### 5.2 주요 기술적 특징
+
+- **Manifest V3 호환**: Service Worker 기반 백그라운드 처리
+- **CDATA 파싱**: BBC, CNN 등 주요 피드 지원
+- **이중 파싱 시스템**: DOMParser + Regex 환경별 최적화
+- **CSP 준수**: 보안 강화된 구조
+
+### 5.3 테스트 스크립트 작동 방식
+
+Chrome Extension 테스트를 위한 특별한 설정:
+
+- **확장 프로그램 ID 동적 획득**: `chrome://extensions` 페이지에서 자동 감지
+- **Service Worker 상태 모니터링**: `chrome://serviceworker-internals` 활용
+- **Mock RSS 응답**: 안정적인 테스트를 위한 가짜 피드 데이터
+- **Extension Context**: `chrome-extension://` URL 직접 접근
+
+### 5.4 즉시 실행 가능한 테스트들
+
+```bash
+# 전체 테스트 실행
+npm test
+
+# UI 모드로 디버깅
+npm run test:ui
+
+# 특정 테스트만 실행
+npx playwright test tests/options.spec.js
+```

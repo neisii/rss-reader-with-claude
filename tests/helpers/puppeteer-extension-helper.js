@@ -62,7 +62,7 @@ export class PuppeteerExtensionHelper {
 
     this.browser = await puppeteer.launch({
       executablePath,
-      headless: isCI, // CI에서는 headless
+      headless: false, // Extension은 headless에서 안 됨!
       args: [
         `--disable-extensions-except=${this.extensionPath}`,
         `--load-extension=${this.extensionPath}`,
@@ -73,7 +73,13 @@ export class PuppeteerExtensionHelper {
         "--disable-background-timer-throttling",
         "--disable-backgrounding-occluded-windows",
         "--disable-renderer-backgrounding",
-        ...(isCI ? ["--disable-gpu"] : []),
+        ...(isCI
+          ? [
+              "--disable-gpu",
+              "--disable-software-rasterizer",
+              "--use-gl=swiftshader",
+            ]
+          : []),
         ...(options.args || []),
       ],
       defaultViewport: null,

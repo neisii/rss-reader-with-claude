@@ -30,10 +30,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
 
-      - name: Run tests
-        run: npm test
+      - name: Run tests with Xvfb (virtual display)
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x720x24" npm test
         env:
           CI: true
+          DISPLAY: :99
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
